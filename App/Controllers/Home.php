@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Core\BaseController;
+use Core\Session;
 
 class Home extends BaseController{ // controllers altındaki dosya isimleri büyük harfle başlamalı
 

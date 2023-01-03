@@ -1,7 +1,11 @@
+<?php
+
+use Core\Session;
+?>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <i class="fa fa-users">CMS Project</i>
+      <i class="fa fa-users"></i>CMS Project
     </a>
 
     <!-- Sidebar -->
@@ -12,12 +16,12 @@
         <i class="fa fa-user"></i>        
       </div>
         <div class="info">
-          <a href="#" class="d-block">Göktuğ Gök</a>
+          <a href="#" class="d-block"><?= sess('name').' '.sess('surname') ?></a>
         </div>
       </div>
 
       <!-- SidebarSearch Form -->
-      <div class="form-inline">
+      <!-- <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
           <div class="input-group-append">
@@ -26,44 +30,66 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a href="<?= _link('') ?>" class="nav-link">
+              <i class="nav-icon fas fa-chart-line"></i>
+                <p>
+                  Keşfet
+                </p>
+            </a>
+          </li>
           <li class="nav-item menu-open">
             <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>
-                Starter Pages
+                Müşteriler
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link active">
+                <a href="<?= _link('musteri/ekle') ?>" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Active Page</p>
+                  <p>Müşteri Ekle</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="<?= _link('musteri/') ?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Inactive Page</p>
+                  <p>Tüm Müşteri</p>
                 </a>
               </li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+          <li class="nav-item menu-open">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-users"></i>
               <p>
-                Simple Link
-                <span class="right badge badge-danger">New</span>
+                Projeler
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="<?= _link('proje/ekle') ?>" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Proje Ekle</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?= _link('proje/') ?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tüm Proje</p>
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>
