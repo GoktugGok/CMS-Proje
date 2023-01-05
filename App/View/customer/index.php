@@ -11,6 +11,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="<?= assets('plugins/fontawesome-free/css/all.min.css') ?>">
@@ -46,11 +47,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Main content -->
     <div class="content">
-          <table class="table table-bordered">
+          <table class="table table-striped table-bordered">
             <thead>
                     <tr>
                       <th>Müşteriler</th>
-                      <th>Projeleri</th>
                       <th style="width: 40px">Eylem</th>
                     </tr>
             </thead>
@@ -58,15 +58,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <?php foreach($data['customers'] as $key => $value):?>
                     <tr id="row_<?= $value['id']?>">
                       <td><?= $value['name'].' '.$value['surname']?></td>
+                      
                       <td>
-                        <div class="progress progress-xs">
-                          <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="btn-group btn-group-sm">
-                          <button onclick="removeCustomer('<?= $value['id'] ?>')" class="btn btn-sm btn-danger">Sil</button>
-                          <a href="<?= _link('musteri/guncelle/'.$value['id']) ?>" class="btn btn-sm btn-info">Güncelle</a>
+                        <div class="btn-group btn-group-md">
+                          <button onclick="confirm('<?= $value['id'] ?>')" class="btn btn-md btn-danger"><i class="fa fa-trash"></i></button>
+                          <a href="<?= _link('musteri/guncelle/'.$value['id']) ?>" class="btn btn-md btn-warning"><i class="fas fa-wrench"></i></a>
+                          <a href="<?= _link('musteri/detay/'.$value['id']) ?>" class="btn btn-md btn-info"><i class="fa fa-eye"></i></a>
+
                         </div>
                     </td>
                     </tr>
@@ -113,6 +111,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="<?=assets('js/adminlte.min.js')?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js" integrity="sha512-QTnb9BQkG4fBYIt9JGvYmxPpd6TBeKp6lsUrtiVQsrJ9sb33Bn9s0wMQO9qVBFbPX3xHRAsBHvXlcsrnJjExjg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+
+    function confirm(id){
+      Swal.fire({
+        title: 'Emin misin?',
+        text: "Bunu geri alamazsınız!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Evet, sil!'
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          removeCustomer(id)
+        } else if (result.isDenied) {
+          Swal.fire('Peki endişelenmeyin her şey yerinde duruyor :)', '', 'info')
+        }
+      })
+    }
+
     function removeCustomer(id){
         let customer_id = id;
 
@@ -137,33 +155,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         })
         .catch((err)=>{console.log(err)})
     }
-    const customer = document.getElementById('customer');
-
-    customer.addEventListener('submit',(e) =>{
-     
-      let customer_name = document.getElementById('customer_name').value;
-      let customer_surname = document.getElementById('customer_surname').value;
-      let customer_company = document.getElementById('customer_company').value;
-      let customer_phone = document.getElementById('customer_phone').value;
-      let customer_gsm = document.getElementById('customer_gsm').value;
-      let customer_email = document.getElementById('customer_email').value;
-      let customer_address = document.getElementById('customer_address').value;
-
-
-      
-      formData.append('customer_name',customer_name);
-      formData.append('customer_surname',customer_surname);
-      formData.append('customer_company',customer_company);
-      formData.append('customer_phone',customer_phone);
-      formData.append('customer_gsm',customer_gsm);
-      formData.append('customer_email',customer_email);
-      formData.append('customer_address',customer_address);
-
-
-      
-      e.preventDefault();
-
-    })
 
 </script>
 </body>

@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use Core\BaseController;
 use App\Model\ModelCustomer;
-
+use App\Model\ModelProject;
 class Customer extends BaseController{ // controllers altındaki dosya isimleri büyük harfle başlamalı
 
     public function Index()
@@ -33,7 +33,18 @@ class Customer extends BaseController{ // controllers altındaki dosya isimleri 
         $data['navbar'] = $this->view->load('static/navbar');
         $data['sidebar'] = $this->view->load('static/sidebar');
         echo $this->view->load('customer/edit', compact('data')); // compact [$user => 'user'] anlamına gelir.
-        } 
+    }
+    public function Detail($id){
+        $ModelProject = new ModelProject();
+        $data['projects'] = $ModelProject->getProjectsByCustomerID($id);
+
+        $ModelCustomer = new ModelCustomer();
+        $data['customer'] = $ModelCustomer->getCustomer($id);
+
+        $data['navbar'] = $this->view->load('static/navbar');
+        $data['sidebar'] = $this->view->load('static/sidebar');
+        echo $this->view->load('customer/detail', compact('data')); // compact [$user => 'user'] anlamına gelir.
+    }  
     
     public function CreateCustomer(){
         $data = $this->request->post();

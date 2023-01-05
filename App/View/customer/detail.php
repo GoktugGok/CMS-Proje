@@ -31,12 +31,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Projeler</h1>
+            <h1 class="m-0"><?= $data['customer']['name']. ' '.$data['customer']['surname'] ?></h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="<?= _link('') ?>">Keşfet</a></li>
-              <li class="breadcrumb-item active">Projeler</li>
+              <li class="breadcrumb-item"><a href="<?= _link('musteri') ?>">Müşteriler</a></li>
+              <li class="breadcrumb-item active"><?= $data['customer']['name']. ' '.$data['customer']['surname'] ?></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -46,7 +47,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Main content -->
     <div class="content">
-          <table class="table table-bordered">
+      <div class="row">
+      <div class="col-md-4">
+        <div class="card card-widget widget-user-2">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-warning">
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username ml-2"><?= $data['customer']['name']. ' '.$data['customer']['surname'] ?></h3>
+                <h5 class="widget-user-desc ml-2"><?= $data['customer']['company']?></h5>
+              </div>
+              <div class="card-footer p-0">
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      Projeler <span class="float-right badge bg-primary"><?= count($data['projects'])?></span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      Tasks <span class="float-right badge bg-info"><?=$data['customer']['email']?></span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      Completed Projects <span class="float-right badge bg-success"><?=$data['customer']['gsm']?></span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      Followers <span class="float-right badge bg-danger"><?=$data['customer']['phone']?></span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+      </div>
+      <div class="col-md-8">
+      <table class="table table-bordered">
             <thead>
                     <tr>
                       <th>Projeler</th>
@@ -76,22 +113,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <?php endforeach;?>
               </tbody>
           </table>
+      </div>
+      </div>
     </div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
   <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-    <div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
-
-  <!-- Main Footer -->
+  
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
@@ -110,39 +140,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- Bootstrap 4 -->
 <script src="<?=assets('plugins/bootstrap/js/bootstrap.bundle.min.js')?>"></script>
 <script src="<?=assets('plugins/sweetalert2/sweetalert2.all.js')?>"></script>
-
 <!-- AdminLTE App -->
-<script src="<?=assets('js/adminlte.min.js')?>"></script>
 <script src="<?=assets('js/adminlte.min.js')?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js" integrity="sha512-QTnb9BQkG4fBYIt9JGvYmxPpd6TBeKp6lsUrtiVQsrJ9sb33Bn9s0wMQO9qVBFbPX3xHRAsBHvXlcsrnJjExjg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+    const customer = document.getElementById('customer');
 
-    function confirm(id){
-      Swal.fire({
-        title: 'Emin misin?',
-        text: "Bunu geri alamazsınız!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Evet, sil!'
-    }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          removeProject(id)
-        } else if (result.isDenied) {
-          Swal.fire('Peki endişelenmeyin her şey yerinde duruyor :)', '', 'info')
-        }
-      })
-    }
+    customer.addEventListener('submit',(e) =>{
+      let customer_id = document.getElementById('customer_id').value;
+      let customer_name = document.getElementById('customer_name').value;
+      let customer_surname = document.getElementById('customer_surname').value;
+      let customer_company = document.getElementById('customer_company').value;
+      let customer_phone = document.getElementById('customer_phone').value;
+      let customer_gsm = document.getElementById('customer_gsm').value;
+      let customer_email = document.getElementById('customer_email').value;
+      let customer_address = document.getElementById('customer_address').value;
 
-    function removeProject(id){
-        let project_id = id;
 
       let formData = new FormData();
-      formData.append('project_id',project_id);
+      formData.append('customer_id',customer_id);
+      formData.append('customer_name',customer_name);
+      formData.append('customer_surname',customer_surname);
+      formData.append('customer_company',customer_company);
+      formData.append('customer_phone',customer_phone);
+      formData.append('customer_gsm',customer_gsm);
+      formData.append('customer_email',customer_email);
+      formData.append('customer_address',customer_address);
 
-      axios.post('<?= _link('proje/sil') ?>',formData)
+
+      axios.post('<?= _link('musteri/guncelle') ?>',formData)
         .then(res=>{
           console.log(res)
 
@@ -153,13 +179,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
             res.data.status,
           );
 
-          if (res.data.removed) {
-              document.getElementById('row_'+ res.data.removed).remove();
+          if (res.data.redirect) {
+            window.location.href = res.data.redirect;
           }
           
         })
         .catch((err)=>{console.log(err)})
-    }
+      e.preventDefault();
+
+    })
 
 </script>
 </body>

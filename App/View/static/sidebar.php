@@ -55,7 +55,7 @@ use Core\Session;
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?= _link('musteri/ekle') ?>" class="nav-link active">
+                <a href="<?= _link('musteri/ekle') ?>" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Müşteri Ekle</p>
                 </a>
@@ -78,7 +78,7 @@ use Core\Session;
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?= _link('proje/ekle') ?>" class="nav-link active">
+                <a href="<?= _link('proje/ekle') ?>" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Proje Ekle</p>
                 </a>
