@@ -16,7 +16,7 @@ use Core\Session;
         <i class="fa fa-user"></i>        
       </div>
         <div class="info">
-          <a href="#" class="d-block"><?= sess('name').' '.sess('surname') ?></a>
+          <a href="<?= _link('profil') ?>" class="d-block"><?= sess('name').' '.sess('surname') ?></a>
         </div>
       </div>
 

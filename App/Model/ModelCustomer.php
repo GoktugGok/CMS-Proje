@@ -71,4 +71,21 @@ class ModelCustomer extends BaseModel{
             return false;
         }
       }
+      public function editNote($data){
+            extract($data);
+            
+            $user = $this->db->connect->prepare('UPDATE customers SET customers.notes =?
+                    WHERE customers.id =?');
+
+            $update = $user->execute([
+                $html,
+                $id
+            ]);
+
+            if ($update) {
+                return true;
+            }else{
+                return false;
+            }
+      }
 }

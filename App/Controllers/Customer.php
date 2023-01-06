@@ -108,6 +108,34 @@ class Customer extends BaseController{ // controllers altındaki dosya isimleri 
             exit();
         }
     }
+    public function TakeNote($id){
+
+        $data = $this->request->post();
+        $data['id'] = $id;
+        if (!$data['html']) {
+            $status = 'error';
+            $title = 'Ops! Dikkat ';
+            $msg = 'Lütfen boş not göndermeyin.';
+            echo json_encode(['status' => $status,'title' => $title,'msg' => $msg]);
+            exit();
+        }
+        $ModelCustomer = new ModelCustomer();
+        $insert = $ModelCustomer->editNote($data);
+
+        if ($insert) {
+            $status = 'success';
+            $title = 'İşlem Başarılı';
+            $msg = 'İşlem başarıyla tamamlandı.';
+            echo json_encode(['status' => $status,'title' => $title,'msg' => $msg,'redirect' => _link('musteri/')]);
+            exit();
+        }else{
+            $status = 'error';
+            $title = 'Ops! Dikkat ';
+            $msg = 'İşlem tamamlanmadı.';
+            echo json_encode(['status' => $status,'title' => $title,'msg' => $msg]);
+            exit();
+        }
+    }
     public function RemoveCustomer(){
         $data = $this->request->post();
 

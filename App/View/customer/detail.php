@@ -13,9 +13,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
+
   <link rel="stylesheet" href="<?= assets('plugins/fontawesome-free/css/all.min.css') ?>">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?=assets('css/adminlte.min.css')?>">
+  <link rel="stylesheet" href="<?=assets('plugins/summernote/summernote.min.css')?>">
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -31,7 +35,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0"><?= $data['customer']['name']. ' '.$data['customer']['surname'] ?></h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -42,48 +45,63 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
-    </div>
+      </div>
     <!-- /.content-header -->
 
     <!-- Main content -->
     <div class="content">
-      <div class="row">
+      <div class="row d-flex justify-content-center">
       <div class="col-md-4">
-        <div class="card card-widget widget-user-2">
+            <!-- Widget: user widget style 1 -->
+            <div class="card card-widget widget-user">
               <!-- Add the bg color to the header using any of the bg-* classes -->
-              <div class="widget-user-header bg-warning">
-                <!-- /.widget-user-image -->
-                <h3 class="widget-user-username ml-2"><?= $data['customer']['name']. ' '.$data['customer']['surname'] ?></h3>
-                <h5 class="widget-user-desc ml-2"><?= $data['customer']['company']?></h5>
+              <div class="widget-user-header bg-info ">
+                <h3 class="widget-user-username mt-2"><?= $data['customer']['name']. ' '.$data['customer']['surname'] ?></h3>
+                <h5 class="widget-user-desc mb-0"><?= $data['customer']['company']?></h5>
               </div>
-              <div class="card-footer p-0">
-                <ul class="nav flex-column">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      Projeler <span class="float-right badge bg-primary"><?= count($data['projects'])?></span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      Tasks <span class="float-right badge bg-info"><?=$data['customer']['email']?></span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      Completed Projects <span class="float-right badge bg-success"><?=$data['customer']['gsm']?></span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      Followers <span class="float-right badge bg-danger"><?=$data['customer']['phone']?></span>
-                    </a>
-                  </li>
-                </ul>
+              <div class="widget-user-image d-flex justify-content-center" style="width: 90px; font-size:40px;">
+                <div>
+                  <i class="fa fa-user"></i>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header"><a href="" style="color:black;"><?= count($data['projects'])?></a></h5>
+                      <span class="description-text">Projeler</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                    <h5 class="description-header" style="font-size:14px;"><a href="mailto:" style="color:black;"><?= $data['customer']['email']?></a></h5>
+                      <span class="description-text ">E-Posta</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4">
+                    <div class="description-block">
+                      <h5 class="description-header"><a href="tel:" style="color:black;"><?= $data['customer']['phone']?></a></h5>
+                      <span class="description-text">Numara</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
               </div>
             </div>
+            <!-- /.widget-user -->
+          </div>
+      
+          
       </div>
-      <div class="col-md-8">
-      <table class="table table-bordered">
+      <div class="row">
+      <div class="col-md-6">
+        <table class="table table-bordered">
             <thead>
                     <tr>
                       <th>Projeler</th>
@@ -114,7 +132,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </tbody>
           </table>
       </div>
+      <div class="col-md-6">
+           <textarea id="summernote"><?= htmlspecialchars_decode($data['customer']['notes'])?></textarea>
+           <button style="width: 100%;" class="btn btn-sm btn-dark" onclick="saveNote()">Kaydet</button>
       </div>
+      </div>
+      
+      
+      
     </div>
     <!-- /.content -->
   </div>
@@ -140,55 +165,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- Bootstrap 4 -->
 <script src="<?=assets('plugins/bootstrap/js/bootstrap.bundle.min.js')?>"></script>
 <script src="<?=assets('plugins/sweetalert2/sweetalert2.all.js')?>"></script>
+<script src="<?=assets('plugins/summernote/summernote.min.js')?>"></script>
+
 <!-- AdminLTE App -->
 <script src="<?=assets('js/adminlte.min.js')?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js" integrity="sha512-QTnb9BQkG4fBYIt9JGvYmxPpd6TBeKp6lsUrtiVQsrJ9sb33Bn9s0wMQO9qVBFbPX3xHRAsBHvXlcsrnJjExjg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    const customer = document.getElementById('customer');
+    $(function (){
+      $('#summernote').summernote({
+        height: 190,
+        placeholder: 'Müşterileriniz hakkında ilgili notlar alın.',
+        toolbar: [
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link']],
+          ['view', ['codeview']]
+        ]
+      });
+    })
 
-    customer.addEventListener('submit',(e) =>{
-      let customer_id = document.getElementById('customer_id').value;
-      let customer_name = document.getElementById('customer_name').value;
-      let customer_surname = document.getElementById('customer_surname').value;
-      let customer_company = document.getElementById('customer_company').value;
-      let customer_phone = document.getElementById('customer_phone').value;
-      let customer_gsm = document.getElementById('customer_gsm').value;
-      let customer_email = document.getElementById('customer_email').value;
-      let customer_address = document.getElementById('customer_address').value;
-
+    function saveNote(){
+      const html = $('#summernote').summernote('code');
 
       let formData = new FormData();
-      formData.append('customer_id',customer_id);
-      formData.append('customer_name',customer_name);
-      formData.append('customer_surname',customer_surname);
-      formData.append('customer_company',customer_company);
-      formData.append('customer_phone',customer_phone);
-      formData.append('customer_gsm',customer_gsm);
-      formData.append('customer_email',customer_email);
-      formData.append('customer_address',customer_address);
+      formData.append('html',html);
 
-
-      axios.post('<?= _link('musteri/guncelle') ?>',formData)
+      axios.post('<?= _link('musteri/not/'.$data['customer']['id']) ?>',formData)
         .then(res=>{
-          console.log(res)
-
-          
           swal.fire(
             res.data.title,
             res.data.msg,
             res.data.status,
           );
-
-          if (res.data.redirect) {
-            window.location.href = res.data.redirect;
-          }
-          
         })
         .catch((err)=>{console.log(err)})
-      e.preventDefault();
-
-    })
-
+    }
 </script>
 </body>
 </html>
