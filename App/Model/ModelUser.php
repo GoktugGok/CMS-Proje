@@ -53,7 +53,21 @@ class ModelUser extends BaseModel{
             }
     }
     public function changePassword($data){
+        extract($data);
+        $id = Session::getSession('id');
+        $user = $this->db->connect->prepare('UPDATE system_users SET system_users.password =?
+                    WHERE system_users.id =?');
 
+            $update = $user->execute([
+                md5($new_password),
+                $id
+            ]);
+
+            if ($update) {
+                return true;
+            }else{
+                return false;
+            }
     }
 
 }

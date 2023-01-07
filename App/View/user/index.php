@@ -157,7 +157,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             res.data.msg,
             res.data.status,
           );
-         
+          window.location.reload();
         })
         .catch((err)=>{console.log(err)})
       e.preventDefault();
